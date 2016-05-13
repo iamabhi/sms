@@ -1,4 +1,4 @@
-/* 
+/*
 
 */
 
@@ -3160,7 +3160,7 @@ a.list-group-item.hover {
 .add-data .md-input {
   height: auto;
   font-size: 36px;
-  padding: 20px 0 0; 
+  padding: 20px 0 0;
   border-bottom: 2px solid #2196f3;
 }
 .add-data .md-input:focus,
@@ -6271,4 +6271,7 @@ a.text-dark:hover {
 .table tbody tr.selected td {
     background: #2196f3 !important;
     color: white !important;
+}
+.add-class-subjects .row {
+  margin: 0px 0 20px;
 }

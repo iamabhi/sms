@@ -9,6 +9,7 @@
  */
 angular.module('inditesmsApp')
   .controller('GroupsCtrl', function ($scope, $rootScope, $routeParams, $location, $filter, Data) {
+    $scope.teacher = {subjects:[{subject:''}]};
   	if(templates) {
 		$scope.templates = groups;
   	} else {
@@ -93,4 +94,17 @@ angular.module('inditesmsApp')
         });
         $scope.remainingCount = !completed ? todos.length : 0;
     };
+
+    $scope.createSubject = function() {
+      $scope.teacher.subjects.push({subject:''});
+    }
+    $scope.removeSubject = function(index) {
+      console.log("index", index);
+      $scope.teacher.subjects.splice(index, 1);
+    }
+    $scope.reset = function() {
+      $scope.msg = "";
+      reset();
+    }
+
   });

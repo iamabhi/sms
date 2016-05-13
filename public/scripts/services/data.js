@@ -9,7 +9,7 @@
  */
 angular.module('inditesmsApp')
   .service('Data', function (FBURL, $window,  $q, $http, Ref, $firebaseArray, $firebaseObject, $rootScope) {
-    // AngularJS will instantiate a singleton by calling "new" on this function 
+    // AngularJS will instantiate a singleton by calling "new" on this function
     var Data = {
     	initTemplates: function() {
     		return $firebaseArray(Ref.child(settings.id+"/templates"));
@@ -17,6 +17,15 @@ angular.module('inditesmsApp')
     	initContacts: function() {
     		return $firebaseArray(Ref.child(settings.id+"/contacts"));
     	},
+      initClasses: function() {
+        return $firebaseArray(Ref.child(settings.id+"/classes"));
+      },
+      createClass: function(classData) {
+        return Ref.child(settings.id+"/classes").push(classData);
+      },
+      removeClass: function(classId) {
+        return Ref.child(settings.id+"/classes/"+classId).remove();
+      },
     	initGroups: function() {
     		return $firebaseArray(Ref.child(settings.id+"/groups"));
     	},
@@ -69,7 +78,7 @@ angular.module('inditesmsApp')
 			// Delete the Requested With Header
 			// delete $http.defaults.headers.common['X-Requested-With'];
 			// $http({
-			// url: "http://bhashsms.com/api/sendmsg.php?user=success&pass=654321&sender=BSHSMS&text=This is a  test message&priority=ndns&stype=normal", 
+			// url: "http://bhashsms.com/api/sendmsg.php?user=success&pass=654321&sender=BSHSMS&text=This is a  test message&priority=ndns&stype=normal",
 			// headers: {
 			//    'Content-Type': 'application/jsonp'
 			// },
@@ -136,7 +145,7 @@ angular.module('inditesmsApp')
 		          'class': 'mdi-communication-contacts',
 		        },{
 		          'title': 'Classes',
-		          'href': '/groups/manage',
+		          'href': '/classes',
 		          'class': 'mdi-action-group-work',
 		        },{
 		          'title': 'Exams',

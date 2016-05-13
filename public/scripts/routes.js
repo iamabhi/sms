@@ -132,6 +132,14 @@ angular.module('inditesmsApp')
         templateUrl: 'views/exams.html',
         controller: 'ExamsCtrl'
       })
+      .when('/classes', {
+        templateUrl: 'views/classes.html',
+        controller: 'ClassesCtrl'
+      })
+      .when('/classes/add', {
+        templateUrl: 'views/addclass.html',
+        controller: 'AddclassCtrl'
+      })
       .otherwise({redirectTo: '/'});
   }])
 

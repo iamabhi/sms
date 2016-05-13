@@ -69,20 +69,20 @@
 							    </div>
 							</div>
 					      </div>
-					      <div ng-switch-when="3">
-		                  	<div class="md-form-group col-sm-10">
-		                        <label class="text-info">Subjects</label>
-								<div class="row" ng-repeat="(k,v) in teacher.subjects">
-								  <div class="col-md-1">
-								  	<button ng-click="(k == 0) ? createSubject(): removeSubject(k)" class="btn custom-add-icon btn-default"><i class="fbtn ibtn fa" ng-class="{ 'fa-plus' : k == 0, 'fa-trash' : k !== 0}"></i></button>
-								  	</div>
-								  <div class="col-md-11">
-								  	<input class="md-input" placeholder="Enter subject" ng-model="teacher.subjects[k].subject" type="text" required focus-me="true" ng-focus \>
-								  </div>
+						<div ng-switch-when="3">
+							<div class="md-form-group col-sm-10">
+									<label class="text-info">Subjects</label>
+									<div class="row" ng-repeat="(k,v) in teacher.subjects">
+										<div class="col-md-1">
+											<button ng-click="(k == 0) ? createSubject(): removeSubject(k)" class="btn custom-add-icon btn-default"><i class="fbtn ibtn fa" ng-class="{ 'fa-plus' : k == 0, 'fa-trash' : k !== 0}"></i></button>
+										</div>
+										<div class="col-md-11">
+											<input class="md-input" placeholder="Enter subject" ng-model="teacher.subjects[k].subject" type="text" required focus-me="true" ng-focus \>
+										</div>
+									</div>
 								</div>
-		                    </div>
-					      </div>
-					   </div>
+							</div>
+						</div>
 	                  </div>
 	                  <button ng-hide="step == 1" ng-click="next(step)" md-ink-ripple="" class="nextBtn md-btn md-fab m-b blue"><i class="mdi-navigation-arrow-forward i-24"></i><div class="md-ripple-container"></div></button>
 
