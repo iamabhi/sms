@@ -24,6 +24,22 @@ angular.module('inditesmsApp')
       .join(' ');
   };
     $scope.sendSMS = function(ev) {
+      if((!$scope.msg.phone) || (!$scope.msg.text)){
+        alert = $mdDialog.alert({
+           title: 'Attention',
+           content: 'Enter both fields before sending message!!',
+           ok: 'Close'
+         });
+
+         $mdDialog
+           .show( alert )
+           .finally(function() {
+             alert = undefined;
+           });
+      }
+      else {
+
+
         var confirm = $mdDialog.confirm()
       .title('Are You Sure ?')
       .content('You want to send SMS to "'+$scope.msg.phone+'" with "'+$scope.msg.text+'"')
@@ -53,5 +69,6 @@ angular.module('inditesmsApp')
     }, function() {
       console.log("cancelled");
     });
+  }
     }
   });

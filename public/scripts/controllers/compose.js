@@ -64,9 +64,27 @@ angular.module('inditesmsApp')
 
   reset();
   $scope.next = function(step) {
-    $scope.step = step + 1;
+
     console.log("Next Step", step);
-    if(step == 2) {
+    if(step == 1) {
+      if(!$scope.teacher.msg) {
+        alert = $mdDialog.alert({
+           title: 'Attention',
+           content: 'Enter a message for parents!',
+           ok: 'Close'
+         });
+
+         $mdDialog
+           .show( alert )
+           .finally(function() {
+             alert = undefined;
+           });
+      } else {
+        $scope.step = step + 1;
+      }
+
+    }
+    else if(step == 2) {
       $scope.importing = true;
       console.log("finally", $scope.teacher);
       var msgData = {
@@ -127,7 +145,7 @@ angular.module('inditesmsApp')
   }
 
   $scope.showConfirm = function(ev) {
-    
+
   };
 });
 

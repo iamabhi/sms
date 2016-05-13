@@ -2,7 +2,7 @@
           	<div class="card row">
 	        <div class="panel-heading blue">
 		        <span ng-if="step != 3" class="label pull-right blue">{{step}}/2</span>
-		        <span ng-hide="type == 'homework'" ng-show="step == 1" class="label pull-right m-r-md amber">
+		        <span ng-show="(step == 1) && (type != 'homework')" class="label pull-right m-r-md amber">
 		        	<a ng-hide="newmsg" ng-click="newmsg = !newmsg">New Message</a>
 		        	<a ng-show="newmsg" ng-click="newmsg = !newmsg">Choose a template</a>
 		        </span>
@@ -25,13 +25,14 @@
 	         	</div>
 	         	<span ng-hide="importing">
 	            <div class="form-wrapper">
-	               <form name="addForm">
+	               <form name="addForm" novalidate>
 	                  <div class="form-content">
 			            <div ng-switch="step">
 					      <div ng-switch-when="1">
 							<div ng-show="newmsg" class="md-form-group col-sm-11">
 								<label class="text-info">Message</label>
-			                    <input type="text" ng-class="{'ng-dirty': teacher.msg, 'error': (addForm.msg.$error.required && addForm.msg.$focused)}" class="md-input" name="msg" placeholder="{{msgTitle}}" ng-model="teacher.msg" ng-enter="next(step)" required focus-me="true" ng-focus \>
+			                    <input type="text" class="md-input" name="msg" placeholder="{{msgTitle}}" ng-model="teacher.msg" ng-enter="next(step)" focus-me="true" required \>
+
 							</div>
 							<div ng-hide="newmsg" class="md-form-group col-sm-12">
 								<h5 class="text-info">Select a Template</h5>
@@ -55,7 +56,7 @@
 	         </div>
           </div>
         </div>
-<!-- 
+<!--
 <div ng-if="list" class="col-xs-12 list-data-table card">
 	<div class="panel-heading blue">
 		        <span class="label pull-right blue">
