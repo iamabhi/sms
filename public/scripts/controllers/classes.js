@@ -36,6 +36,11 @@ angular.module('inditesmsApp')
           $scope.rowCollection.splice(index, 1);
       }
   }
+
+  $scope.editItem = function editItem(row) {
+    $rootScope.editClass = row;
+    $location.path('/classes/add');
+  }
   // $scope.changeFilter = function(key) {
   // 	console.log("key", key);
   // 	$scope.defaultClass = key;

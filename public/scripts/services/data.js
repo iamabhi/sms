@@ -20,8 +20,8 @@ angular.module('inditesmsApp')
       initClasses: function() {
         return $firebaseArray(Ref.child(settings.id+"/classes"));
       },
-      createClass: function(classData) {
-        return Ref.child(settings.id+"/classes").push(classData);
+      createGroup: function(classData) {
+        return Ref.child(settings.id+"/groups").push(classData);
       },
       removeClass: function(classId) {
         return Ref.child(settings.id+"/classes/"+classId).remove();

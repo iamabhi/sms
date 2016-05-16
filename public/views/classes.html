@@ -20,7 +20,8 @@
 		<tr>
 			<th st-sort="class" st-sort-default="true">Class Name</th>
 			<th>Subjects</th>
-			<th width="10%">Action</th>
+			<th>Exams</th>
+			<th width="20%">Action</th>
 		</tr>
 		<tr>
 			<th>
@@ -29,14 +30,22 @@
 			<th>
 				<input st-search="'subjects'" placeholder="search for phone" class="input-sm form-control" type="search"/>
 			</th>
-			<th width="10%"></th>
+			<th>
+				<input st-search="'exams'" placeholder="search for exams" class="input-sm form-control" type="search"/>
+			</th>
+			<th width="20%"></th>
 		</tr>
 		</thead>
 		<tbody>
 		<tr ng-repeat="row in displayedCollection">
 			<td>{{row.class}}</td>
 			<td><span ng-repeat="(s, subject) in row.subjects">{{(s == 0) ? subject.subject : ', '+ subject.subject}}</span></td>
-			<td width="10%">
+			<td><span ng-repeat="(e, exam) in row.exams">{{(e == 0) ? exam.title : ', '+ exam.title}}</span></td>
+			<td width="20%">
+				<button type="button" ng-click="editItem(row)" class="btn btn-sm btn-danger">
+					<i class="icon mdi-action-delete">
+					</i> Edit
+				</button>
 				<button type="button" ng-click="removeItem(row)" class="btn btn-sm btn-danger">
 					<i class="icon mdi-action-delete">
 					</i> Delete
