@@ -50,11 +50,13 @@ angular.module('inditesmsApp')
 			//textlocal sms
 			var message = {
 				username: "sahayarexj@gmail.com",
-				hash: "84cd35310cfe7c32815e8dac6bfd608bab87bb41",
+				hash: "21e351caf1a6c4b2895e2f025e10c4a10476edfe",
 				numbers: msgData.phone,
-				sender: "TXTLCL",
-				message: msgData.text
+				sender: "SCHOOL",
+				message: encodeURI("Dear parent, "+msgData.text)
 			};
+      // {username:"sahayarexj@gmail.com",hash:"21e351caf1a6c4b2895e2f025e10c4a10476edfe",
+      // numbers:a.phone,sender:"SCHOOL",message:encodeURI("Dear teacher,\n\n "+a.text)};
 			//bhashsms
 			// var message = {
 			// 	user: "8951572125",
@@ -66,19 +68,19 @@ angular.module('inditesmsApp')
 			// 	stype: "normal"
 			// }
     		console.log("data", message);
-    		if(msgData.send) {
-				//$http.jsonp("http://bhashsms.com/api/sendmsg.php?callback=JSON_CALLBACK", {params: message}).success(function(data) {
-				$http.jsonp("http://api.textlocal.in/send/?callback=JSON_CALLBACK", {params: message}).success(function(data) {
-					console.log("api success data", data);
-					defer.resolve(data);
-				}).error(function(err) {
-					console.log("api error data", err);
-					defer.resolve({status:"success"});
-					//defer.reject(err);
-				});
-    		} else {
-    		  defer.resolve({status:"success"});
-    		}
+    		//if(msgData.send) {
+  				//$http.jsonp("http://bhashsms.com/api/sendmsg.php?callback=JSON_CALLBACK", {params: message}).success(function(data) {
+  				$http.jsonp("http://api.textlocal.in/send/?callback=JSON_CALLBACK", {params: message}).success(function(data) {
+  					console.log("api success data", data);
+  					defer.resolve(data);
+  				}).error(function(err) {
+  					console.log("api error data", err);
+  					//defer.resolve({status:"success"});
+  					defer.reject(err);
+  				});
+    		// } else {
+    		//   defer.reject({status:"failed"});
+    		// }
 
 
 			// Delete the Requested With Header

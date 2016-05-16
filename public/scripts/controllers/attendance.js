@@ -12,7 +12,7 @@ angular.module('inditesmsApp')
   	console.log("items", items);
     var d = new Date();
     $scope.msg = {
-      text: "Your son is absent on "+ d.getDate() + ' ' + months[d.getMonth()] +' '+d.getFullYear(),
+      text: " is absent on "+ d.getDate() + ' ' + months[d.getMonth()] +' '+d.getFullYear(),
       phone: ''
     }
     $scope.users = [];
@@ -20,34 +20,51 @@ angular.module('inditesmsApp')
     $scope.usernames = '';
     for (var i = 0; i < items.length; i++) {
       if(items[i].isSelected) {
+        items[i].text = items[i].name + $scope.msg.text;
         $scope.users.push(items[i]);
-        if($scope.msg.phone) {
-          $scope.msg.phone += ","+items[i].phone;
+        if($scope.usernames) {
           $scope.usernames += ", "+items[i].name;
-        } 
+        }
         else {
-          $scope.msg.phone = items[i].phone;
           $scope.usernames = items[i].name;
         }
       }
     };
 
-    $scope.ok = function () {
+    var sendSMS = function(index) {
+
       $scope.sending = true;
-      Data.sendSMS($scope.msg).then(function(data) {
+      Data.sendSMS($scope.users[index]).then(function(data) {
         console.log("data", data);
         if(data.status == "failure") $modalInstance.close('Something went wrong. Please send SMS again..');
-        else $modalInstance.close("SMS sent successfully!");
+        else {
+          index++;
+          if(index == $scope.users.length) {
+            $modalInstance.close("SMS sent successfully!");
+          } else {
+            sendSMS(index);
+          }
+        }
       }, function(err) {
         console.log("error", err);
-        $modalInstance.dismiss('cancel');
+        index++;
+        if(index == $scope.users.length) {
+          $modalInstance.dismiss('cancel');
+        } else {
+          sendSMS(index);
+        }
       });
+
+    }
+
+    $scope.ok = function () {
+      sendSMS(0);
     };
 
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');
     };
-  }) 
+  })
   .controller('AttendanceCtrl', function ($scope, $modal, $mdToast, $rootScope, $filter, $window, $route, $location, $q, $timeout, Auth, Ref, Data) {
   if(contacts) {
     $scope.contacts = contacts;
