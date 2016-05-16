@@ -70,7 +70,7 @@ angular.module('inditesmsApp')
       if(!$scope.teacher.msg) {
         alert = $mdDialog.alert({
            title: 'Attention',
-           content: 'Enter a message for parents!',
+           content: 'Enter a message for parents before sending....!',
            ok: 'Close'
          });
 

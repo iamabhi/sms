@@ -28,17 +28,17 @@
 				<input st-search="'class'" placeholder="search for name" class="input-sm form-control" type="search"/>
 			</th>
 			<th>
-				<input st-search="'subjects'" placeholder="search for phone" class="input-sm form-control" type="search"/>
+				<!-- <input st-search="'subjects'" placeholder="search for phone" class="input-sm form-control" type="search"/> -->
 			</th>
 			<th>
-				<input st-search="'exams'" placeholder="search for exams" class="input-sm form-control" type="search"/>
+				<!-- <input st-search="'exams'" placeholder="search for exams" class="input-sm form-control" type="search"/> -->
 			</th>
 			<th width="20%"></th>
 		</tr>
 		</thead>
 		<tbody>
 		<tr ng-repeat="row in displayedCollection">
-			<td>{{row.class}}</td>
+			<td>{{row.title}}</td>
 			<td><span ng-repeat="(s, subject) in row.subjects">{{(s == 0) ? subject.subject : ', '+ subject.subject}}</span></td>
 			<td><span ng-repeat="(e, exam) in row.exams">{{(e == 0) ? exam.title : ', '+ exam.title}}</span></td>
 			<td width="20%">

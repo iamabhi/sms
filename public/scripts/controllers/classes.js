@@ -10,7 +10,7 @@
 angular.module('inditesmsApp')
   .controller('ClassesCtrl', function ($scope, $modal, $mdToast, $rootScope, $filter, $window, $route, $location, $q, $timeout, Auth, Ref, Data) {
 
-  $scope.contacts = Data.initClasses();
+  $scope.contacts = Data.initGroups();
 
   $scope.groups = {};
   $scope.itemsByPage = 100;
@@ -39,7 +39,7 @@ angular.module('inditesmsApp')
 
   $scope.editItem = function editItem(row) {
     $rootScope.editClass = row;
-    $location.path('/classes/add');
+    $location.path('/classes/edit/'+row.$id);
   }
   // $scope.changeFilter = function(key) {
   // 	console.log("key", key);

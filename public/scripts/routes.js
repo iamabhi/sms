@@ -140,6 +140,10 @@ angular.module('inditesmsApp')
         templateUrl: 'views/addclass.html',
         controller: 'AddclassCtrl'
       })
+      .when('/classes/edit/:id', {
+        templateUrl: 'views/addclass.html',
+        controller: 'AddclassCtrl'
+      })
       .otherwise({redirectTo: '/'});
   }])
 
