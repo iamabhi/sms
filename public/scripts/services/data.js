@@ -20,11 +20,11 @@ angular.module('inditesmsApp')
       initClasses: function() {
         return $firebaseArray(Ref.child(settings.id+"/classes"));
       },
-      createClass: function(classData) {
-        return Ref.child(settings.id+"/classes").push(classData);
+      createGroup: function(groupData) {
+        return Ref.child(settings.id+"/groups").push(groupData);
       },
       removeClass: function(classId) {
-        return Ref.child(settings.id+"/classes/"+classId).remove();
+        return Ref.child(settings.id+"/groups/"+classId).remove();
       },
     	initGroups: function() {
     		return $firebaseArray(Ref.child(settings.id+"/groups"));
@@ -148,7 +148,7 @@ angular.module('inditesmsApp')
 		          'href': '/classes',
 		          'class': 'mdi-action-group-work',
 		        },{
-		          'title': 'Exams',
+		          'title': 'Add Exams',
 		          'href': '/groups/list',
 		          'class': 'mdi-action-assignment',
 		        },{

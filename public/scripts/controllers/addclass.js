@@ -16,10 +16,10 @@ angular.module('inditesmsApp')
     init();
 
     $scope.save = function(event) {
-      if($scope.newclass.class && $scope.newclass.subjects) {
+      if($scope.newclass.title && $scope.newclass.subjects) {
         var data = angular.copy($scope.newclass);
         console.log("data", data);
-        var saved = Data.createClass(data);
+        var saved = Data.createGroup(data);
         console.log("saved", saved);
         alert = $mdDialog.alert({
            title: 'Class created',

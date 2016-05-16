@@ -34,7 +34,7 @@
 		</thead>
 		<tbody>
 		<tr ng-repeat="row in displayedCollection">
-			<td>{{row.class}}</td>
+			<td>{{row.title}}</td>
 			<td><span ng-repeat="(s, subject) in row.subjects">{{(s == 0) ? subject.subject : ', '+ subject.subject}}</span></td>
 			<td width="10%">
 				<button type="button" ng-click="removeItem(row)" class="btn btn-sm btn-danger">

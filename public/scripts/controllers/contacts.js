@@ -8,15 +8,19 @@
  * Controller of the inditesmsApp
  */
 angular.module('inditesmsApp')
-  .controller('ContactsCtrl', function ($scope, $rootScope, $window, $route, $location, $q, $timeout, Auth, Ref, Data) {
+  .controller('ContactsCtrl', function ($scope, $rootScope, $window, $route, $location, $q, $timeout, Auth, Ref, Data, $mdDialog) {
   console.log("Teacher Settings", settings);
   if(contacts) {
     $scope.contacts = contacts;
   } else {
     $scope.contacts = Data.initContacts();
+    console.log('Contacts', $scope.contacts);
   }
+  //$scope.groups = Data.initGroups();
+  //console.log('Classes', $scope.classes);
   $scope.list = false;
-  if(groups) $scope.groups = groups
+//  console.log('Groups',$scope.groups);
+  if(groups) $scope.groups = groups;
   else $scope.groups = Data.initGroups();
 
   $scope.contacts.$loaded().then(function(ccsnap) {
@@ -44,7 +48,23 @@ angular.module('inditesmsApp')
   reset();
   $scope.next = function(step) {
     console.log("Next Step", step);
-    if(step == 3) {
+    if(step == 2) {
+
+      if((!$scope.teacher.name) || (!$scope.teacher.phone)){
+        alert = $mdDialog.alert({
+           title: 'Attention',
+           content: 'Enter both fields before sending message!!',
+           ok: 'Close'
+         });
+
+         $mdDialog
+           .show( alert )
+           .finally(function() {
+             alert = undefined;
+           });
+      }
+      else {
+
       $scope.msg = "Creating contact...";
       console.log("finally", $scope.teacher);
       $scope.teacher.created = new Date().getTime();
@@ -61,10 +81,11 @@ angular.module('inditesmsApp')
             $scope.msg = "Contact already exists";
           } else {
             $scope.contacts.$add($scope.teacher);
-            $scope.msg = "Contact has been created";            
+            $scope.msg = "Contact has been created";
           }
         }
       })
+    }
     } else {
       $scope.step = step + 1;
     }
@@ -80,7 +101,7 @@ angular.module('inditesmsApp')
   }
 
   $scope.selectGroup = function(groupType) {
-  	$scope.teacher.type = groupType;
+  	$scope.teacher.type = groupType.title;
   	$scope.step++;
   }
 
@@ -150,7 +171,7 @@ angular.module('inditesmsApp')
               };
             console.log("userdata", userdata);
             allusers.push(userdata);
-            } 
+            }
         }
       }
     }
@@ -161,7 +182,7 @@ angular.module('inditesmsApp')
       var userdata = {};
       userdata.pepper = Math.random().toString(36).slice(-8);
       userdata.subjects = [];
-      var allsubjects = allusers[iteration].subjects.split(";");        
+      var allsubjects = allusers[iteration].subjects.split(";");
       for (var si = 0; si < allsubjects.length; si++) {
         var cdata = allsubjects[si].split(":");
         if(cdata[1].indexOf("-") == -1) cdata[1] = cdata[1] + "-all";
@@ -184,7 +205,7 @@ angular.module('inditesmsApp')
             console.log("user created", usercreated);
             return createProfile(usercreated, userdata);
           })
-          .then(function() { 
+          .then(function() {
             if(iteration != (allusers.length -1)) {
               iteration++;
               alluserSubmit(iteration);

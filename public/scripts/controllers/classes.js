@@ -10,7 +10,7 @@
 angular.module('inditesmsApp')
   .controller('ClassesCtrl', function ($scope, $modal, $mdToast, $rootScope, $filter, $window, $route, $location, $q, $timeout, Auth, Ref, Data) {
 
-  $scope.contacts = Data.initClasses();
+  $scope.contacts = Data.initGroups();
 
   $scope.groups = {};
   $scope.itemsByPage = 100;
