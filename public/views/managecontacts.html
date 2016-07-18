@@ -31,7 +31,11 @@
 		<tr ng-repeat="row in displayedCollection">
 			<td>{{row.name}}</td>
 			<td>{{row.phone}}</td>
-			<td width="10%">
+			<td width="20%">
+				<button type="button" ng-click="open(row)" class="btn btn-sm btn-danger">
+					<i class="icon mdi-action-delete">
+					</i> Edit
+				</button>
 				<button type="button" ng-click="removeItem(row)" class="btn btn-sm btn-danger">
 					<i class="icon mdi-action-delete">
 					</i> Delete

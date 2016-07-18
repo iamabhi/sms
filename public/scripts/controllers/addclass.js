@@ -49,6 +49,7 @@ angular.module('inditesmsApp')
          $mdDialog
            .show( alert )
            .finally(function() {
+             $location.path( "/classes" );
              alert = undefined;
              init();
            });

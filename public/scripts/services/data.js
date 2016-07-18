@@ -156,10 +156,6 @@ angular.module('inditesmsApp')
 		          'href': '/classes',
 		          'class': 'mdi-action-group-work',
 		        },{
-		          'title': 'Add Exams',
-		          'href': '/groups/list',
-		          'class': 'mdi-action-assignment',
-		        },{
 		          'title': 'Templates',
 		          'href': '/templates',
 		          'class': 'mdi-communication-textsms'

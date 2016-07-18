@@ -8,6 +8,18 @@
  * Controller of the inditesmsApp
  */
 angular.module('inditesmsApp')
+  .controller('updateContactModalCtrl', function($scope, $modalInstance, item, Data) {
+    console.log("items", item);
+    $scope.item = item;
+    $scope.confirm = function(item) {
+        console.log("changed item", item);
+        $modalInstance.close(item);
+    }
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  })
   .controller('ManagecontactsCtrl', function ($scope, $modal, $mdToast, $rootScope, $filter, $window, $route, $location, $q, $timeout, Auth, Ref, Data) {
   if(contacts) {
     $scope.contacts = contacts;
@@ -35,6 +47,48 @@ angular.module('inditesmsApp')
       }
       $scope.contacts.$remove(row);
   }
+  $scope.toastPosition = {
+    bottom: false,
+    top: true,
+    left: false,
+    right: true
+  };
+
+  $scope.getToastPosition = function() {
+    return Object.keys($scope.toastPosition)
+      .filter(function(pos) { return $scope.toastPosition[pos]; })
+      .join(' ');
+  };
+
+  $scope.open = function(selectedItem) {
+    var modalInstance = $modal.open({
+        templateUrl: 'views/editcontact.html',
+        controller: 'updateContactModalCtrl',
+        resolve: {
+          item: function () {
+            return selectedItem;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (item) {
+        console.log("item", item);
+        console.log("selected item", selectedItem);
+      //  selectedItem[$scope.filterKey] = true;
+        $scope.contacts.$save(selectedItem);
+        //$scope.rowCollection = $scope.groups[$scope.defaultClass];
+        $mdToast.show(
+          $mdToast.simple()
+            .content("Saved")
+            .position($scope.getToastPosition())
+            .hideDelay(3000)
+        );
+      }, function () {
+        console.log('Modal dismissed at: ' + new Date());
+      });
+  }
+
+
   $scope.changeFilter = function(key) {
   	console.log("key", key);
   	$scope.defaultClass = key;
