@@ -53,7 +53,7 @@ angular.module('inditesmsApp')
       if((!$scope.teacher.name) || (!$scope.teacher.phone)){
         alert = $mdDialog.alert({
            title: 'Attention',
-           content: 'Enter both fields before sending message!!',
+           content: 'Enter both fields before adding a contact!!',
            ok: 'Close'
          });
 
