@@ -8,7 +8,7 @@
  * Controller of the inditesmsApp
  */
 angular.module('inditesmsApp')
-  .controller('ClassesCtrl', function ($scope, $modal, $mdToast, $rootScope, $filter, $window, $route, $location, $q, $timeout, Auth, Ref, Data) {
+  .controller('ClassesCtrl', function ($scope, $modal, $mdToast, $rootScope, $mdDialog, $filter, $window, $route, $location, $q, $timeout, Auth, Ref, Data) {
 
   $scope.contacts = Data.initGroups();
 
@@ -29,7 +29,7 @@ angular.module('inditesmsApp')
 
     var confirm = $mdDialog.confirm()
     .title('Are You Sure ?')
-    .content('You want to delete'+ row.title)
+    .content('You want to delete '+ row.title)
     .ariaLabel('')
     .ok('Yes')
     .cancel('No')
