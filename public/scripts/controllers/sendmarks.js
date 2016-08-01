@@ -56,8 +56,8 @@ angular.module('inditesmsApp')
       $scope.subjects[gval.title] = gval.subjects;
       j++;
     });
+    console.log("scope subjects", $scope.subjects);
   });
-
   if(contacts) {
     $scope.contacts = contacts;
   } else {
@@ -70,12 +70,12 @@ angular.module('inditesmsApp')
   	angular.forEach(ccsnap, function(cval) {
       if(jj == 0) $scope.defaultClass = cval.type;
   		if(!$scope.groupContacts[cval.type]) $scope.groupContacts[cval.type] = [];
-  		$scope.groupContacts[cval.type].push(cval);
+  		if(cval.type != "teachers") $scope.groupContacts[cval.type].push(cval);
       jj++;
   	});
     console.log("contacts", $scope.groupContacts);
     console.log("default class", $scope.defaultClass);
-  	$scope.rowCollection = $scope.groupContacts[$scope.defaultClass];
+  	$scope.rowCollection = ($scope.defaultClass) ? $scope.groupContacts[$scope.defaultClass] : [];
   	$scope.displayedCollection = [].concat($scope.rowCollection);
   });
   console.log("contacts", $scope.contacts);
@@ -107,6 +107,7 @@ angular.module('inditesmsApp')
 
   $scope.open = function(selectedItem) {
     selectedItem.subjects = $scope.subjects[$scope.defaultClass];
+    console.log("selected item", selectedItem);
     var modalInstance = $modal.open({
         templateUrl: 'views/sendmarksModal.html',
         controller: 'sendmarksModalCtrl',
@@ -119,7 +120,6 @@ angular.module('inditesmsApp')
 
       modalInstance.result.then(function (msg) {
         console.log("msg", msg);
-        console.log("selected item", selectedItem);
         selectedItem[$scope.filterKey] = true;
         $scope.contacts.$save(selectedItem);
         //$scope.rowCollection = $scope.groups[$scope.defaultClass];

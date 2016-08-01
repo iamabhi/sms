@@ -25,16 +25,29 @@ angular.module('inditesmsApp')
   	$scope.displayedCollection = [].concat($scope.rowCollection);
   });
   console.log("contacts", $scope.contacts);
-  $scope.removeItem = function removeItem(row) {
-      console.log("removing row", row);
-      var fbindex = $scope.contacts.$indexFor(angular.copy(row));
-      console.log("fbindex", row.id);
-      console.log("fbindex", row.$id);
-      Data.removeClass(row.$id);
-      var index = $scope.rowCollection.indexOf(row);
-      if (index !== -1) {
-          $scope.rowCollection.splice(index, 1);
-      }
+  $scope.removeItem = function removeItem(row, ev) {
+
+    var confirm = $mdDialog.confirm()
+    .title('Are You Sure ?')
+    .content('You want to delete'+ row.title)
+    .ariaLabel('')
+    .ok('Yes')
+    .cancel('No')
+    .targetEvent(ev);
+
+    $mdDialog.show(confirm).then(function() {
+        console.log("removing row", row);
+        var fbindex = $scope.contacts.$indexFor(angular.copy(row));
+        console.log("fbindex", row.id);
+        console.log("fbindex", row.$id);
+        Data.removeClass(row.$id);
+        var index = $scope.rowCollection.indexOf(row);
+        if (index !== -1) {
+            $scope.rowCollection.splice(index, 1);
+        }
+    }, function() {
+      console.log("cancelled");
+    });
   }
 
   $scope.editItem = function editItem(row) {
