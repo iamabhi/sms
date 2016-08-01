@@ -9,11 +9,11 @@
  */
 angular.module('inditesmsApp')
   .controller('sendmarksModalCtrl', function($scope, $modalInstance, item, Data) {
-  	console.log("items", item);
+    console.log("items", item);
     $scope.item = item;
     $scope.step = 1;
-    $scope.msg = {text:'',phone:''};
-    if(item) $scope.msg.phone = item.phone;
+    $scope.msg = {text:'',phone:[]};
+    if(item) $scope.msg.phone.push(item.phone);
     $scope.confirm = function() {
     	for (var i = 0; i < $scope.item.subjects.length; i++) {
     		if(i == 0) $scope.msg.text = $scope.item.subjects[i].subject +' '+ $scope.item.subjects[i].mark;
@@ -36,12 +36,14 @@ angular.module('inditesmsApp')
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');
     };
-  }) 
+  })
   .controller('SendmarksCtrl', function ($scope, $modal, $mdToast, $rootScope, $filter, $window, $route, $location, $q, $timeout, Auth, Ref, Data) {
   if(groups) $scope.groups = groups;
   else $scope.groups = Data.initGroups();
   $scope.exams = {};
+  $scope.subjects = {};
   $scope.groups.$loaded().then(function(gsnap) {
+    console.log("scope groups", $scope.groups);
     var j = 0;
     console.log("gsnap", gsnap);
     angular.forEach(gsnap, function(gval) {
@@ -51,6 +53,7 @@ angular.module('inditesmsApp')
         $scope.filterKey = $rootScope.user.educationalyear +'_'+$scope.defaultExam;
       }
       $scope.exams[gval.title] = gval.exams;
+      $scope.subjects[gval.title] = gval.subjects;
       j++;
     });
   });
@@ -103,6 +106,7 @@ angular.module('inditesmsApp')
   };
 
   $scope.open = function(selectedItem) {
+    selectedItem.subjects = $scope.subjects[$scope.defaultClass];
     var modalInstance = $modal.open({
         templateUrl: 'views/sendmarksModal.html',
         controller: 'sendmarksModalCtrl',

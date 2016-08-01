@@ -37,7 +37,7 @@
       <!-- brand -->
       <a class="navbar-brand">
         <img src="images/greened-logo.png" alt=".">
-        <span class="hidden-folded m-l inline ng-binding">GreenEd</span>
+        <span class="hidden-folded m-l inline ng-binding"></span>
       </a>
       <!-- / brand -->
   </div>
@@ -46,9 +46,9 @@
       <div class="box-inner">
         <div class="p hidden-folded blue-50" ng-class="$state.current.data.theme ? $state.current.data.theme.primary+'-50' : app.setting.theme.primary+'-50'" style="background-image:url(images/bg.png); background-size:cover">
           <div class="rounded w-64 bg-white inline pos-rlt">
-            <img src="images/a0.jpg" class="img-responsive rounded">
+            <img src="images/school-icon.jpg" class="img-responsive rounded">
           </div>
-          <a class="block m-t-sm pull-right" ui-toggle-class="hide, show" target="#nav, #account">
+          <a class="block m-t-sm" ui-toggle-class="hide, show" target="#nav, #account">
             <span class="block font-bold">{{user.name}}</span>
             {{user.address}}
           </a>
@@ -288,6 +288,7 @@
         <script src="scripts/controllers/exams.js"></script>
         <script src="scripts/controllers/classes.js"></script>
         <script src="scripts/controllers/addclass.js"></script>
+        <script src="scripts/controllers/dashboard.js"></script>
         <!-- endbuild -->
 </body>
 </html>

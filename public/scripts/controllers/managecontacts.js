@@ -20,7 +20,7 @@ angular.module('inditesmsApp')
       $modalInstance.dismiss('cancel');
     };
   })
-  .controller('ManagecontactsCtrl', function ($scope, $modal, $mdToast, $rootScope, $filter, $window, $route, $location, $q, $timeout, Auth, Ref, Data) {
+  .controller('ManagecontactsCtrl', function ($scope, $modal, $mdToast, $mdDialog, $rootScope, $filter, $window, $route, $location, $q, $timeout, Auth, Ref, Data) {
   if(contacts) {
     $scope.contacts = contacts;
   } else {
@@ -35,17 +35,31 @@ angular.module('inditesmsApp')
   	})
   	var defaultClass = localStorage.getItem("defaultClass") || Object.keys($scope.groups)[0];
   	$scope.defaultClass = defaultClass;
-  	$scope.rowCollection = $scope.groups[defaultClass];
+  	$scope.rowCollection = (defaultClass) ? $scope.groups[defaultClass] : [];
   	$scope.displayedCollection = [].concat($scope.rowCollection);
   });
   console.log("contacts", $scope.contacts);
-  $scope.removeItem = function removeItem(row) {
+  $scope.removeItem = function removeItem(row, ev) {
+
+    var confirm = $mdDialog.confirm()
+    .title('Are You Sure ?')
+    .content('You want to delete'+ row.name)
+    .ariaLabel('')
+    .ok('Yes')
+    .cancel('No')
+    .targetEvent(ev);
+
+    $mdDialog.show(confirm).then(function() {
       console.log("removing row", row);
       var index = $scope.rowCollection.indexOf(row);
       if (index !== -1) {
           $scope.rowCollection.splice(index, 1);
       }
       $scope.contacts.$remove(row);
+    }, function() {
+      console.log("cancelled");
+    });
+
   }
   $scope.toastPosition = {
     bottom: false,

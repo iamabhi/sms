@@ -40,7 +40,7 @@ angular.module('inditesmsApp')
       else {
 
 
-        var confirm = $mdDialog.confirm()
+      var confirm = $mdDialog.confirm()
       .title('Are You Sure ?')
       .content('You want to send SMS to "'+$scope.msg.phone+'" with "'+$scope.msg.text+'"')
       .ariaLabel('')

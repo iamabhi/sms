@@ -9,6 +9,7 @@ var templates = null;
 var contacts = null;
 var groups = null;
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct","Nov", "Dec"];
+var monthsFull = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October","November", "December"];
 /**
  * @ngdoc overview
  * @name inditesmsApp:routes
@@ -144,6 +145,10 @@ angular.module('inditesmsApp')
         templateUrl: 'views/addclass.html',
         controller: 'AddclassCtrl'
       })
+      .when('/dashboard', {
+        templateUrl: 'views/dashboard.html',
+        controller: 'DashboardCtrl'
+      })
       .otherwise({redirectTo: '/'});
   }])
 
@@ -186,17 +191,16 @@ angular.module('inditesmsApp')
         }
         console.log("userdata", userdata);
         if(userdata && !$rootScope.user) {
-          var i = 0;
-          if((i = userdata.password.email.indexOf("-")) > 0) {
-            var email = userdata.password.email.split("@");
-            console.log("email", email);
-            console.log("i", i);
-            settings.role = "admin";
-            settings.id = email[0];
-            settings.uid = userdata.uid;
-            settings.type = "school";
-            localStorage.setItem("settings", CryptoJS.AES.encrypt(JSON.stringify(settings), "*(%!%&@!@%"));
-          }
+          var email = userdata.password.email.split("@");
+          console.log("email", email);
+          settings.role = "admin";
+          settings.id = email[0];
+          settings.uid = userdata.uid;
+          settings.type = "school";
+          localStorage.setItem("settings", CryptoJS.AES.encrypt(JSON.stringify(settings), "*(%!%&@!@%"));
+          // var i = 0;
+          // if((i = userdata.password.email.indexOf("-")) > 0) {
+          // }
           $rootScope.user = $firebaseObject(Ref.child('users/'+userdata.uid));
           Data.initTemplates();
           Data.initContacts();

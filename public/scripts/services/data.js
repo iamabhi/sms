@@ -35,6 +35,9 @@ angular.module('inditesmsApp')
     	initGroups: function() {
     		return $firebaseArray(Ref.child(settings.id+"/groups"));
     	},
+      initCount: function() {
+    		return $firebaseObject(Ref.child(settings.id+"/count").limitToLast(6));
+    	},
     	initExams: function(gid) {
     		return $firebaseArray(Ref.child(settings.id+"/groups/"+gid+"/exams"));
     	},
@@ -48,12 +51,19 @@ angular.module('inditesmsApp')
     		console.log("data", msgData);
 			var defer = $q.defer();
 			//textlocal sms
+      if(msgData.teacher) {
+        var template = encodeURI("Dear teacher, "+msgData.text);
+      } else {
+        var template = encodeURI("Dear parent, "+msgData.text);
+      }
+
 			var message = {
 				username: "sahayarexj@gmail.com",
 				hash: "21e351caf1a6c4b2895e2f025e10c4a10476edfe",
-				numbers: msgData.phone,
+				numbers: msgData.phone.toString(','),
 				sender: "SCHOOL",
-				message: encodeURI("Dear parent, "+msgData.text)
+				message: template,
+        test: true,
 			};
       // {username:"sahayarexj@gmail.com",hash:"21e351caf1a6c4b2895e2f025e10c4a10476edfe",
       // numbers:a.phone,sender:"SCHOOL",message:encodeURI("Dear teacher,\n\n "+a.text)};
@@ -67,21 +77,34 @@ angular.module('inditesmsApp')
 			// 	priority: "ndnd",
 			// 	stype: "normal"
 			// }
-    		console.log("data", message);
+        var d = new Date();
+        var cyear = d.getFullYear();
+        var cmonth = ("0" + (d.getMonth() + 1)).slice(-2);
+    		console.log("data just before sending SMS", message);
+        //var msgSize = parseInt(message.message.length/160);
+        //console.log("msgSize", msgSize);
     		//if(msgData.send) {
   				//$http.jsonp("http://bhashsms.com/api/sendmsg.php?callback=JSON_CALLBACK", {params: message}).success(function(data) {
   				$http.jsonp("http://api.textlocal.in/send/?callback=JSON_CALLBACK", {params: message}).success(function(data) {
   					console.log("api success data", data);
-  					defer.resolve(data);
+            Ref.child(settings.id+'/count/'+cyear+'-'+cmonth+'/total').transaction(function(total) {
+              if(total >= 0) {
+                return total + msgData.phone.length;
+              } else {
+                return msgData.phone.length;
+              }
+            }, function(error, committed, snapshot) {
+              if (error) {
+                defer.reject(error);
+              } else {
+                defer.resolve(data);
+              }
+            });
   				}).error(function(err) {
   					console.log("api error data", err);
   					//defer.resolve({status:"success"});
   					defer.reject(err);
   				});
-    		// } else {
-    		//   defer.reject({status:"failed"});
-    		// }
-
 
 			// Delete the Requested With Header
 			// delete $http.defaults.headers.common['X-Requested-With'];
@@ -120,19 +143,25 @@ angular.module('inditesmsApp')
     		console.log("type", type);
     		if(type == "school") {
 		        return [{
-				  'title': 'Send Group SMS',
-				  'href': '/compose/group',
-				  'class': 'mdi-content-send',
-				},{
-		          'title': 'Attendance SMS',
+    				  'title': 'Dashboard',
+    				  'href': '/dashboard',
+    				  'class': 'mdi-navigation-apps',
+				    },
+            {
+    				  'title': 'Send Group SMS',
+    				  'href': '/compose/group',
+    				  'class': 'mdi-content-send',
+				    },
+            {
+		          'title': 'Send Attendance SMS',
 		          'href': '/attendance',
 		          'class': 'mdi-image-remove-red-eye',
 		        },{
-		          'title': 'Homework SMS',
+		          'title': 'Send Homework SMS',
 		          'href': '/compose/homework',
 		          'class': 'mdi-editor-border-color',
 		        },{
-		          'title': 'Personal SMS',
+		          'title': 'Send Personal SMS',
 		          'href': '/personalsms',
 		          'class': 'mdi-social-person',
 		        },{
@@ -140,11 +169,11 @@ angular.module('inditesmsApp')
 		          'href': '/sendmarks',
 		          'class': 'mdi-social-school',
 		        },{
-		          'title': 'New number SMS',
+		          'title': 'Send New number SMS',
 		          'href': '/newnumbersms',
 		          'class': 'mdi-communication-phone',
 		        },{
-		          'title': 'Add Contacts',
+		          'title': 'Add New Contact',
 		          'href': '/contacts',
 		          'class': 'mdi-communication-quick-contacts-dialer',
 		        },{
@@ -152,7 +181,7 @@ angular.module('inditesmsApp')
 		          'href': '/managecontacts',
 		          'class': 'mdi-communication-contacts',
 		        },{
-		          'title': 'Classes',
+		          'title': 'Manage Classes',
 		          'href': '/classes',
 		          'class': 'mdi-action-group-work',
 		        },{

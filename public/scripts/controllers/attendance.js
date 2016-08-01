@@ -12,16 +12,14 @@ angular.module('inditesmsApp')
   	console.log("items", items);
     var d = new Date();
     $scope.msg = {
-      text: " is absent on "+ d.getDate() + ' ' + months[d.getMonth()] +' '+d.getFullYear(),
-      phone: ''
+      text: "Your son is absent on "+ d.getDate() + ' ' + months[d.getMonth()] +' '+d.getFullYear(),
+      phone: []
     }
-    $scope.users = [];
     $scope.sending = false;
     $scope.usernames = '';
     for (var i = 0; i < items.length; i++) {
       if(items[i].isSelected) {
-        items[i].text = items[i].name + $scope.msg.text;
-        $scope.users.push(items[i]);
+        $scope.msg.phone.push(items[i].phone);
         if($scope.usernames) {
           $scope.usernames += ", "+items[i].name;
         }
@@ -34,25 +32,22 @@ angular.module('inditesmsApp')
     var sendSMS = function(index) {
 
       $scope.sending = true;
-      Data.sendSMS($scope.users[index]).then(function(data) {
+      Data.sendSMS($scope.msg).then(function(data) {
         console.log("data", data);
-        if(data.status == "failure") $modalInstance.close('Something went wrong. Please send SMS again..');
+        if(data.status == "failure") {
+          $modalInstance.close('Something went wrong. Please send SMS again..');
+        }
         else {
-          index++;
-          if(index == $scope.users.length) {
-            $modalInstance.close("SMS sent successfully!");
-          } else {
-            sendSMS(index);
-          }
+          $modalInstance.close("SMS sent successfully!");
         }
       }, function(err) {
         console.log("error", err);
-        index++;
-        if(index == $scope.users.length) {
-          $modalInstance.dismiss('cancel');
-        } else {
-          sendSMS(index);
-        }
+        $modalInstance.dismiss('cancel');
+        // index++;
+        // if(index == $scope.users.length) {
+        // } else {
+        //   sendSMS(index);
+        // }
       });
 
     }

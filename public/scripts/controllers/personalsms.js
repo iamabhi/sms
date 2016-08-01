@@ -12,8 +12,8 @@ angular.module('inditesmsApp')
   	console.log("items", item);
     $scope.item = item;
     $scope.step = 1;
-    $scope.msg = {text:'',phone:''};
-    if(item) $scope.msg.phone = item.phone;
+    $scope.msg = {text:'',phone:[]};
+    if(item) $scope.msg.phone.push(item.phone);
     $scope.confirm = function() {
     	$scope.step = 2;
     }
@@ -32,7 +32,7 @@ angular.module('inditesmsApp')
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');
     };
-  }) 
+  })
   .controller('PersonalsmsCtrl', function ($scope, $modal, $mdToast, $rootScope, $filter, $window, $route, $location, $q, $timeout, Auth, Ref, Data) {
   if(contacts) {
     $scope.contacts = contacts;
@@ -48,8 +48,10 @@ angular.module('inditesmsApp')
   	})
   	var defaultClass = localStorage.getItem("defaultClass") || Object.keys($scope.groups)[0];
   	$scope.defaultClass = defaultClass;
-  	$scope.rowCollection = $scope.groups[defaultClass];
+  	$scope.rowCollection = (defaultClass) ? $scope.groups[defaultClass] : [];
+    console.log("row collection", $scope.rowCollection);
   	$scope.displayedCollection = [].concat($scope.rowCollection);
+    console.log("display collection", $scope.displayedCollection);
   });
   console.log("contacts", $scope.contacts);
   $scope.removeItem = function removeItem(row) {

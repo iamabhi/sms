@@ -33,22 +33,25 @@ angular.module('inditesmsApp')
     $scope.grpLabel = "Select a class";
     $rootScope.title = "Send Homework SMS";
   }
-  var allcontacts = {};
+  var allcontacts = {all:[]};
   $scope.contacts.$loaded().then(function(ccsnap) {
   	var ci = 0;
   	angular.forEach(ccsnap, function(cval) {
-  		if(ci == 0) {
-  			allcontacts['all'] = cval.phone;
-  		} else {
-  			allcontacts['all'] += ","+cval.phone;
-  		}
-  		if(allcontacts[cval.type]) {
-  			allcontacts[cval.type] += ","+cval.phone;
-  		} else {
-  			$scope.groups[cval.type] = cval.type;
-  			allcontacts[cval.type] = cval.phone;
-  		}
-      ci++;
+  		// if(ci == 0) {
+  		// 	allcontacts['all'] = cval.phone;
+  		// } else {
+  		// 	allcontacts['all'] += ","+cval.phone;
+  		// }
+  		// if(allcontacts[cval.type]) {
+  		// 	allcontacts[cval.type] += ","+cval.phone;
+  		// } else {
+  		// 	allcontacts[cval.type] = cval.phone;
+  		// }
+      // ci++;
+      $scope.groups[cval.type] = cval.type;
+      allcontacts['all'].push(cval.phone);
+      if(!allcontacts[cval.type]) allcontacts[cval.type] = [];
+      allcontacts[cval.type].push(cval.phone);
     });
       console.log("All contacts", allcontacts);
   });
@@ -94,7 +97,8 @@ angular.module('inditesmsApp')
         phone : $scope.teacher.phone,
         text : $scope.teacher.msg,
         priority : "ndnd",
-        stype : "normal"
+        stype : "normal",
+        teacher: ($scope.teacher.type == 'teachers') ? true : false
       }
       console.log("msgData", msgData);
       Data.sendSMS(msgData).then(function(response) {
@@ -105,6 +109,7 @@ angular.module('inditesmsApp')
         } else {
           $scope.msg = "Something went wrong. Please send again. :-(";
         }
+
       }, function(err) {
         console.log('error', err);
       });
