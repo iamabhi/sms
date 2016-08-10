@@ -63,7 +63,7 @@ angular.module('inditesmsApp')
 				numbers: msgData.phone.toString(','),
 				sender: "SCHOOL",
 				message: template,
-        test: true,
+        test: false,
 			};
       // {username:"sahayarexj@gmail.com",hash:"21e351caf1a6c4b2895e2f025e10c4a10476edfe",
       // numbers:a.phone,sender:"SCHOOL",message:encodeURI("Dear teacher,\n\n "+a.text)};
