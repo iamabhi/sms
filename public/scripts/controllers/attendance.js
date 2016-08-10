@@ -12,43 +12,52 @@ angular.module('inditesmsApp')
   	console.log("items", items);
     var d = new Date();
     $scope.msg = {
-      text: "Your son is absent on "+ d.getDate() + ' ' + months[d.getMonth()] +' '+d.getFullYear(),
-      phone: []
+      text: " is absent on "+ d.getDate() + ' ' + months[d.getMonth()] +' '+d.getFullYear(),
+      phone: [],
+      usernames: [],
     }
     $scope.sending = false;
     $scope.usernames = '';
     for (var i = 0; i < items.length; i++) {
       if(items[i].isSelected) {
         $scope.msg.phone.push(items[i].phone);
-        if($scope.usernames) {
-          $scope.usernames += ", "+items[i].name;
-        }
-        else {
-          $scope.usernames = items[i].name;
-        }
+        $scope.msg.usernames.push(items[i].name);
+        // if($scope.usernames) {
+        //   $scope.usernames += ", "+items[i].name;
+        // }
+        // else {
+        //   $scope.usernames = items[i].name;
+        // }
       }
     };
+    var sending = function(index) {
 
-    var sendSMS = function(index) {
+      if($scope.msg.phone[index]) {
+
+        var msg = {
+          text: $scope.msg.usernames[index] + $scope.msg.text,
+          phone: $scope.msg.phone[index]
+        }
+        Data.sendSMS(msg).then(function(data) {
+          console.log("data", data);
+          if(data.status == "failure") {
+            $modalInstance.close('Something went wrong. Please send SMS again..');
+          }
+          index++;
+          sending(index);
+        }, function(err) {
+          console.log("error", err);
+          index++;
+          sending(index);
+        });
+      } else {
+        $modalInstance.close("SMS sent successfully!");
+      }
+    }
+    var sendSMS = function() {
 
       $scope.sending = true;
-      Data.sendSMS($scope.msg).then(function(data) {
-        console.log("data", data);
-        if(data.status == "failure") {
-          $modalInstance.close('Something went wrong. Please send SMS again..');
-        }
-        else {
-          $modalInstance.close("SMS sent successfully!");
-        }
-      }, function(err) {
-        console.log("error", err);
-        $modalInstance.dismiss('cancel');
-        // index++;
-        // if(index == $scope.users.length) {
-        // } else {
-        //   sendSMS(index);
-        // }
-      });
+      sending(0);
 
     }
 
