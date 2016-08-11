@@ -36,7 +36,7 @@ angular.module('inditesmsApp')
 
         var msg = {
           text: $scope.msg.usernames[index] + $scope.msg.text,
-          phone: $scope.msg.phone[index]
+          phone: [$scope.msg.phone[index]]
         }
         Data.sendSMS(msg).then(function(data) {
           console.log("data", data);

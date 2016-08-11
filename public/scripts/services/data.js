@@ -62,7 +62,8 @@ angular.module('inditesmsApp')
 				hash: "21e351caf1a6c4b2895e2f025e10c4a10476edfe",
 				numbers: msgData.phone.toString(','),
 				sender: "SCHOOL",
-				message: template
+				message: template,
+        //test: true
 			};
       // {username:"sahayarexj@gmail.com",hash:"21e351caf1a6c4b2895e2f025e10c4a10476edfe",
       // numbers:a.phone,sender:"SCHOOL",message:encodeURI("Dear teacher,\n\n "+a.text)};
@@ -87,9 +88,12 @@ angular.module('inditesmsApp')
   				$http.jsonp("http://api.textlocal.in/send/?callback=JSON_CALLBACK", {params: message}).success(function(data) {
   					console.log("api success data", data);
             Ref.child(settings.id+'/count/'+cyear+'-'+cmonth+'/total').transaction(function(total) {
+              console.log("total", total);
               if(total >= 0) {
+                console.log("yes", total + msgData.phone.length);
                 return total + msgData.phone.length;
               } else {
+                console.log("no", msgData.phone.length);
                 return msgData.phone.length;
               }
             }, function(error, committed, snapshot) {
