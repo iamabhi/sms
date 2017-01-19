@@ -63,6 +63,11 @@ angular.module('inditesmsApp')
     $scope.newmsg = true;
     $scope.teacher = {};
     $scope.required = false;
+
+  }
+  $scope.totalMsg = function(value) {
+      $scope.teacher.msgCount = Math.floor(value);
+      return $scope.teacher.msgCount;
   }
 
   reset();
@@ -98,7 +103,8 @@ angular.module('inditesmsApp')
         text : $scope.teacher.msg,
         priority : "ndnd",
         stype : "normal",
-        teacher: ($scope.teacher.type == 'teachers') ? true : false
+        teacher: ($scope.teacher.type == 'teachers') ? true : false,
+        msgCount: $scope.teacher.msgCount
       }
       console.log("msgData", msgData);
       Data.sendSMS(msgData).then(function(response) {

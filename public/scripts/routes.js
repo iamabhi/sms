@@ -92,25 +92,30 @@ angular.module('inditesmsApp')
       .when('/contacts', {
         templateUrl: 'views/contacts.html',
         controller: 'ContactsCtrl',
-        title: 'Contacts'
+        title: 'Add New Contacts'
       })
       .when('/templates', {
         templateUrl: 'views/templates.html',
         controller: 'TemplatesCtrl',
         title: 'Templates'
       })
+      .when('/examschedule', {
+        templateUrl: 'views/examschedule.html',
+        controller: 'ExamscheduleCtrl',
+        title: 'Send Exam Schedule'
+      })
       .when('/newnumbersms', {
-        title: 'New Number SMS',
+        title: 'Send New Number SMS',
         templateUrl: 'views/newnumbersms.html',
         controller: 'NewnumbersmsCtrl'
       })
       .when('/attendance', {
         templateUrl: 'views/attendance.html',
         controller: 'AttendanceCtrl',
-        title: 'Attendance'
+        title: 'Send Attendance'
       })
       .when('/personalsms', {
-        title: 'Personal SMS',
+        title: 'Send Personal SMS',
         templateUrl: 'views/personalsms.html',
         controller: 'PersonalsmsCtrl'
       })
@@ -147,7 +152,8 @@ angular.module('inditesmsApp')
       })
       .when('/dashboard', {
         templateUrl: 'views/dashboard.html',
-        controller: 'DashboardCtrl'
+        controller: 'DashboardCtrl',
+        title: 'Dashboard'
       })
       .otherwise({redirectTo: '/'});
   }])
