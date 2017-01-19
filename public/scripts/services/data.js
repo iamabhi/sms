@@ -63,8 +63,9 @@ angular.module('inditesmsApp')
   				numbers: msgData.phone.toString(','),
   				sender: "SCHOOL",
   				message: template
-          //test: true
+          test: true
   			};
+        var numberOfSMS = msgData.msgCount ? msgData.msgCount : 1;
         var url = "http://api.msg91.com/api/sendhttp.php?authkey="+message.hash+"&mobiles="+message.numbers+"&message="+message.message+"&sender="+message.sender+"&response=json";
         var d = new Date();
         var cyear = d.getFullYear();
@@ -76,10 +77,10 @@ angular.module('inditesmsApp')
             console.log("total", total);
             if(total >= 0) {
               console.log("yes", total + msgData.phone.length);
-              return total + msgData.phone.length;
+              return total + (msgData.phone.length * numberOfSMS);
             } else {
               console.log("no", msgData.phone.length);
-              return msgData.phone.length;
+              return (msgData.phone.length * numberOfSMS);
             }
           }, function(error, committed, snapshot) {
             if (error) {
@@ -125,12 +126,12 @@ angular.module('inditesmsApp')
         var template = encodeURI("Dear parent, "+msgData.text);
       }
 
-      var message = {
-        username: "sahayarexj@gmail.com",
-        hash: "21e351caf1a6c4b2895e2f025e10c4a10476edfe",
-        numbers: msgData.phone.toString(','),
-        sender: "SCHOOL",
-        message: template,
+			var message = {
+				username: "sahayarexj@gmail.com",
+				hash: "21e351caf1a6c4b2895e2f025e10c4a10476edfe",
+				numbers: msgData.phone.toString(','),
+				sender: "SCHOOL",
+				message: template
         //test: true
       };
       // {username:"sahayarexj@gmail.com",hash:"21e351caf1a6c4b2895e2f025e10c4a10476edfe",
