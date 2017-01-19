@@ -9,7 +9,7 @@
  */
 angular.module('inditesmsApp')
   .controller('NewnumbersmsCtrl', function ($scope, Data, $mdDialog, $mdToast) {
-    $scope.msg = {send:true};
+    $scope.msg = {send:true, phone:[], number:''};
     var msg = '';
     $scope.toastPosition = {
         bottom: false,
@@ -24,7 +24,7 @@ angular.module('inditesmsApp')
       .join(' ');
   };
     $scope.sendSMS = function(ev) {
-      if((!$scope.msg.phone) || (!$scope.msg.text)){
+      if((!$scope.msg.number) || (!$scope.msg.text)){
         alert = $mdDialog.alert({
            title: 'Attention',
            content: 'Enter both fields before sending message!!',
@@ -42,13 +42,14 @@ angular.module('inditesmsApp')
 
       var confirm = $mdDialog.confirm()
       .title('Are You Sure ?')
-      .content('You want to send SMS to "'+$scope.msg.phone+'" with "'+$scope.msg.text+'"')
+      .content('You want to send SMS to "'+$scope.msg.number+'" with "'+$scope.msg.text+'"')
       .ariaLabel('')
       .ok('Yes')
       .cancel('No')
       .targetEvent(ev);
 
     $mdDialog.show(confirm).then(function() {
+      $scope.msg.phone.push($scope.msg.number);
     	Data.sendSMS($scope.msg).then(function(resp) {
     		console.log("resp", resp);
             if(resp.status == 'success') {

@@ -62,7 +62,7 @@ angular.module('inditesmsApp')
 				hash: "21e351caf1a6c4b2895e2f025e10c4a10476edfe",
 				numbers: msgData.phone.toString(','),
 				sender: "SCHOOL",
-				message: template,
+				message: template
         //test: true
 			};
       // {username:"sahayarexj@gmail.com",hash:"21e351caf1a6c4b2895e2f025e10c4a10476edfe",
