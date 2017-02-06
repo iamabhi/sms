@@ -106,7 +106,7 @@ angular.module('inditesmsApp', [
       }
 
       function hex(x) {
-        var hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
+        var hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f");
         return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
       }
 
@@ -132,8 +132,9 @@ angular.module('inditesmsApp', [
       $scope.closeAside = function () {
         $timeout(function() { $document.find('#aside').length && $mdSidenav('aside').close(); });
       }
-    
+
       $scope.logout = function() {
+        localStorage.removeItem('settings');
         Auth.$unauth();
         $location.path('/login');
       };

@@ -9,11 +9,14 @@
 angular.module('inditesmsApp')
   .controller('AccountCtrl', function ($rootScope, $route, $scope, user, Auth, Ref, $firebaseObject, $timeout) {
     $scope.user = user;
-    $scope.logout = function() { Auth.$unauth(); };
+    $scope.logout = function() {
+      localStorage.removeItem('settings');
+      Auth.$unauth();
+    };
     $scope.messages = [];
     var profile = $firebaseObject(Ref.child('users/'+user.uid));
     profile.$bindTo($scope, 'profile');
-    
+
     console.log("user info", $rootScope.user);
     $scope.changePassword = function(oldPass, newPass, confirm) {
       $scope.err = null;

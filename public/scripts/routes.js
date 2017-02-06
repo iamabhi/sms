@@ -196,22 +196,30 @@ angular.module('inditesmsApp')
           $location.path(loggedInPath);
         }
         console.log("userdata", userdata);
-        if(userdata && !$rootScope.user) {
-          var email = userdata.password.email.split("@");
-          console.log("email", email);
-          settings.role = "admin";
-          settings.id = email[0];
-          settings.uid = userdata.uid;
-          settings.type = "school";
-          localStorage.setItem("settings", CryptoJS.AES.encrypt(JSON.stringify(settings), "*(%!%&@!@%"));
+        if(userdata && (Object.keys(settings).length == 0)) {
           // var i = 0;
           // if((i = userdata.password.email.indexOf("-")) > 0) {
           // }
           $rootScope.user = $firebaseObject(Ref.child('users/'+userdata.uid));
+          $rootScope.user.$loaded().then(function(snap) {
+            var email = userdata.password.email.split("@");
+            console.log("email", email);
+            settings.role = snap.role;
+            settings.id = snap.id;
+            settings.uid = userdata.uid;
+            settings.type = snap.type;
+            localStorage.setItem("settings", CryptoJS.AES.encrypt(JSON.stringify(settings), "*(%!%&@!@%"));
+            console.log("SNAAA", snap);
+            $rootScope.menus = Data.getMenus(snap.type);
+          })
           Data.initTemplates();
           Data.initContacts();
-          $rootScope.menus = Data.getMenus(settings.type);
 
+        } else {
+          $rootScope.user = $firebaseObject(Ref.child('users/'+userdata.uid));
+          $rootScope.menus = Data.getMenus(settings.type);
+          Data.initTemplates();
+          Data.initContacts();
         }
       }
 

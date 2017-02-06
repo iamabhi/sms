@@ -51,21 +51,21 @@ angular.module('inditesmsApp')
     		console.log("data", msgData);
   			var defer = $q.defer();
   			//textlocal sms
-        if(msgData.teacher) {
-          var template = encodeURI("Dear teacher, "+msgData.text);
-        } else {
-          var template = encodeURI("Dear parent, "+msgData.text);
-        }
+        // if(msgData.teacher) {
+        //   var template = encodeURI("Dear teacher, "+msgData.text);
+        // } else {
+        //   var template = encodeURI("Dear parent, "+msgData.text);
+        // }
 
   			var message = {
   				username: "sahayarexj@gmail.com",
   				hash: "126681ADrjB7IUXeOK57ebae6a",
   				numbers: msgData.phone.toString(','),
   				sender: "SCHOOL",
-  				message: template
+  				message: msgData.text,
           test: true
   			};
-        var numberOfSMS = msgData.msgCount ? msgData.msgCount : 1;
+        var numberOfSMS = parseInt((160 + msgData.text.length)/160);
         var url = "http://api.msg91.com/api/sendhttp.php?authkey="+message.hash+"&mobiles="+message.numbers+"&message="+message.message+"&sender="+message.sender+"&response=json";
         var d = new Date();
         var cyear = d.getFullYear();
@@ -262,41 +262,41 @@ angular.module('inditesmsApp')
 		          'class': 'mdi-communication-textsms'
 		        }];
 			} else if(type == "office") {
-				return [{
-				  'title': 'Dashboard',
-				  'href': '/dashboard',
-				  'class': 'mdi-action-dashboard',
-				},{
-		          'title': 'Wall',
-		          'href': '/wall',
-		          'class': 'mdi-action-dashboard',
-		        },
-				{
-				  'title': 'Add Teacher',
-				  'href': '/addteacher',
-				  'class': 'fa fa-user-md'
-				},
-				{
-				  'title': 'Add Student',
-				  'href': '/addstudent',
-				  'class': 'fa fa-user'
-				},
-				 {
-				  'title': 'Teachers',
-				  'href': '/teachers',
-				  'class': 'fa fa-user-md'
-				},
-				{
-				  'title': 'Student',
-				  'href': '/student',
-				  'class': 'fa fa-user'
-				},
-				{
-				  'title': 'Marks',
-				  'href': '/addmarks',
-				  'class': 'fa fa-user'
-				}];
-			} else {
+          return [{
+            'title': 'Dashboard',
+            'href': '/dashboard',
+            'class': 'mdi-navigation-apps',
+          },
+          {
+            'title': 'Send Group SMS',
+            'href': '/compose/group',
+            'class': 'mdi-content-send',
+          },{
+            'title': 'Send Personal SMS',
+            'href': '/personalsms',
+            'class': 'mdi-social-person',
+          },{
+            'title': 'Send New number SMS',
+            'href': '/newnumbersms',
+            'class': 'mdi-communication-phone',
+          },{
+            'title': 'Add New Contact',
+            'href': '/contacts',
+            'class': 'mdi-communication-quick-contacts-dialer',
+          },{
+            'title': 'Manage Contacts',
+            'href': '/managecontacts',
+            'class': 'mdi-communication-contacts',
+          },{
+            'title': 'Manage Groups',
+            'href': '/classes',
+            'class': 'mdi-action-group-work',
+          },{
+            'title': 'Templates',
+            'href': '/templates',
+            'class': 'mdi-communication-textsms'
+          }];
+    } else {
 				return [];
 			}
     	}
