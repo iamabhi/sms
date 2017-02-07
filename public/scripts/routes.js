@@ -216,8 +216,10 @@ angular.module('inditesmsApp')
           Data.initContacts();
 
         } else {
-          $rootScope.user = $firebaseObject(Ref.child('users/'+userdata.uid));
-          $rootScope.menus = Data.getMenus(settings.type);
+          if(userdata) {
+            $rootScope.user = $firebaseObject(Ref.child('users/'+userdata.uid));
+            $rootScope.menus = Data.getMenus(settings.type);
+          }
           Data.initTemplates();
           Data.initContacts();
         }

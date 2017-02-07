@@ -11,6 +11,15 @@ angular.module('inditesmsApp')
   .service('Data', function (FBURL, $window,  $q, $http, Ref, $firebaseArray, $firebaseObject, $rootScope) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     var Data = {
+      getConfig: function() {
+        var ldata = localStorage.getItem("settings");
+        if(ldata) {
+          var settings = JSON.parse(CryptoJS.AES.decrypt(ldata, "*(%!%&@!@%").toString(CryptoJS.enc.Utf8));
+        } else {
+          var settings = {};
+        }
+        return settings;
+      },
     	initTemplates: function() {
     		return $firebaseArray(Ref.child(settings.id+"/templates"));
     	},
@@ -56,62 +65,73 @@ angular.module('inditesmsApp')
         // } else {
         //   var template = encodeURI("Dear parent, "+msgData.text);
         // }
+        if($rootScope.user.id) {
+          var senderName = $rootScope.user.shortCode;
+          var defaultSender = ($rootScope.user.type == 'school') ? 'SCHOOL' : 'OFFICE';
+        } else {
+          var localConfig = Data.getConfig();
+          var senderName = localConfig.shortCode;
+          var defaultSender = (localConfig.type == 'school') ? 'SCHOOL' : 'OFFICE';
+        }
 
   			var message = {
   				username: "sahayarexj@gmail.com",
   				hash: "126681ADrjB7IUXeOK57ebae6a",
   				numbers: msgData.phone.toString(','),
-  				sender: "SCHOOL",
+  				sender: senderName ? senderName : defaultSender,
   				message: msgData.text,
           test: true
   			};
         var numberOfSMS = parseInt((160 + msgData.text.length)/160);
-        var url = "http://api.msg91.com/api/sendhttp.php?authkey="+message.hash+"&mobiles="+message.numbers+"&message="+message.message+"&sender="+message.sender+"&response=json";
-        var d = new Date();
-        var cyear = d.getFullYear();
-        var cmonth = ("0" + (d.getMonth() + 1)).slice(-2);
-    		console.log("data just before sending SMS", message);
-				$http.jsonp(url, {params: {}}).success(function(data) {
-					console.log("api success data", data);
-          Ref.child(settings.id+'/count/'+cyear+'-'+cmonth+'/total').transaction(function(total) {
-            console.log("total", total);
-            if(total >= 0) {
-              console.log("yes", total + msgData.phone.length);
-              return total + (msgData.phone.length * numberOfSMS);
-            } else {
-              console.log("no", msgData.phone.length);
-              return (msgData.phone.length * numberOfSMS);
-            }
-          }, function(error, committed, snapshot) {
-            if (error) {
-              defer.reject(error);
-            } else {
-              defer.resolve(data);
-            }
-          });
-				}).error(function(err) {
-					console.log("api error data", err);
-          if(!err) {
-            Ref.child(settings.id+'/count/'+cyear+'-'+cmonth+'/total').transaction(function(total) {
-              console.log("total", total);
-              if(total >= 0) {
-                console.log("yes", total + msgData.phone.length);
-                return total + msgData.phone.length;
-              } else {
-                console.log("no", msgData.phone.length);
-                return msgData.phone.length;
-              }
-            }, function(error, committed, snapshot) {
-              if (error) {
-                defer.reject(error);
-              } else {
-                defer.resolve({status:'success'});
-              }
-            });
-          } else {
-            defer.reject(err);
-          }
-				});
+        console.log("Message", message);
+        console.log("Number of SMS", numberOfSMS);
+
+        // var url = "http://api.msg91.com/api/sendhttp.php?authkey="+message.hash+"&mobiles="+message.numbers+"&message="+message.message+"&sender="+message.sender+"&response=json";
+        // var d = new Date();
+        // var cyear = d.getFullYear();
+        // var cmonth = ("0" + (d.getMonth() + 1)).slice(-2);
+    		// console.log("data just before sending SMS", message);
+				// $http.jsonp(url, {params: {}}).success(function(data) {
+				// 	console.log("api success data", data);
+        //   Ref.child(settings.id+'/count/'+cyear+'-'+cmonth+'/total').transaction(function(total) {
+        //     console.log("total", total);
+        //     if(total >= 0) {
+        //       console.log("yes", total + msgData.phone.length);
+        //       return total + (msgData.phone.length * numberOfSMS);
+        //     } else {
+        //       console.log("no", msgData.phone.length);
+        //       return (msgData.phone.length * numberOfSMS);
+        //     }
+        //   }, function(error, committed, snapshot) {
+        //     if (error) {
+        //       defer.reject(error);
+        //     } else {
+        //       defer.resolve(data);
+        //     }
+        //   });
+				// }).error(function(err) {
+				// 	console.log("api error data", err);
+        //   if(!err) {
+        //     Ref.child(settings.id+'/count/'+cyear+'-'+cmonth+'/total').transaction(function(total) {
+        //       console.log("total", total);
+        //       if(total >= 0) {
+        //         console.log("yes", total + msgData.phone.length);
+        //         return total + msgData.phone.length;
+        //       } else {
+        //         console.log("no", msgData.phone.length);
+        //         return msgData.phone.length;
+        //       }
+        //     }, function(error, committed, snapshot) {
+        //       if (error) {
+        //         defer.reject(error);
+        //       } else {
+        //         defer.resolve({status:'success'});
+        //       }
+        //     });
+        //   } else {
+        //     defer.reject(err);
+        //   }
+				// });
 
 			  return defer.promise;
     	},

@@ -16,12 +16,12 @@ angular.module('inditesmsApp')
     $scope.contacts = Data.initContacts();
     console.log('Contacts', $scope.contacts);
   }
-  //$scope.groups = Data.initGroups();
+  $scope.groups = Data.initGroups();
   //console.log('Classes', $scope.classes);
   $scope.list = false;
 //  console.log('Groups',$scope.groups);
-  if(groups) $scope.groups = groups;
-  else $scope.groups = Data.initGroups();
+  // if(groups) $scope.groups = groups;
+  // else $scope.groups = Data.initGroups();
 
   $scope.contacts.$loaded().then(function(ccsnap) {
   	//$scope.list = true;
