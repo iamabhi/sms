@@ -16,8 +16,8 @@ angular.module('inditesmsApp')
         redirect, showError
       );
     };
-    $scope.email = "admin-school1";
-    $scope.pass = "subin003";
+    //$scope.email = "admin-school1";
+    //$scope.pass = "subin003";
     $scope.createAccount = function(email, pass, confirm) {
       $scope.err = null;
       if( !pass ) {
@@ -63,10 +63,10 @@ angular.module('inditesmsApp')
       return f + str.substr(1);
     }
 
-  
+
 
     function redirect(userdata) {
-      $scope.loading = false;   
+      $scope.loading = false;
       $location.path(loggedInPath);
     }
 
