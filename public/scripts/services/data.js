@@ -86,52 +86,52 @@ angular.module('inditesmsApp')
         console.log("Message", message);
         console.log("Number of SMS", numberOfSMS);
 
-        // var url = "http://api.msg91.com/api/sendhttp.php?authkey="+message.hash+"&mobiles="+message.numbers+"&message="+message.message+"&sender="+message.sender+"&response=json";
-        // var d = new Date();
-        // var cyear = d.getFullYear();
-        // var cmonth = ("0" + (d.getMonth() + 1)).slice(-2);
-    		// console.log("data just before sending SMS", message);
-				// $http.jsonp(url, {params: {}}).success(function(data) {
-				// 	console.log("api success data", data);
-        //   Ref.child(settings.id+'/count/'+cyear+'-'+cmonth+'/total').transaction(function(total) {
-        //     console.log("total", total);
-        //     if(total >= 0) {
-        //       console.log("yes", total + msgData.phone.length);
-        //       return total + (msgData.phone.length * numberOfSMS);
-        //     } else {
-        //       console.log("no", msgData.phone.length);
-        //       return (msgData.phone.length * numberOfSMS);
-        //     }
-        //   }, function(error, committed, snapshot) {
-        //     if (error) {
-        //       defer.reject(error);
-        //     } else {
-        //       defer.resolve(data);
-        //     }
-        //   });
-				// }).error(function(err) {
-				// 	console.log("api error data", err);
-        //   if(!err) {
-        //     Ref.child(settings.id+'/count/'+cyear+'-'+cmonth+'/total').transaction(function(total) {
-        //       console.log("total", total);
-        //       if(total >= 0) {
-        //         console.log("yes", total + msgData.phone.length);
-        //         return total + msgData.phone.length;
-        //       } else {
-        //         console.log("no", msgData.phone.length);
-        //         return msgData.phone.length;
-        //       }
-        //     }, function(error, committed, snapshot) {
-        //       if (error) {
-        //         defer.reject(error);
-        //       } else {
-        //         defer.resolve({status:'success'});
-        //       }
-        //     });
-        //   } else {
-        //     defer.reject(err);
-        //   }
-				// });
+        var url = "http://api.msg91.com/api/sendhttp.php?authkey="+message.hash+"&mobiles="+message.numbers+"&message="+message.message+"&sender="+message.sender+"&response=json";
+        var d = new Date();
+        var cyear = d.getFullYear();
+        var cmonth = ("0" + (d.getMonth() + 1)).slice(-2);
+    		console.log("data just before sending SMS", message);
+				$http.jsonp(url, {params: {}}).success(function(data) {
+					console.log("api success data", data);
+          Ref.child(settings.id+'/count/'+cyear+'-'+cmonth+'/total').transaction(function(total) {
+            console.log("total", total);
+            if(total >= 0) {
+              console.log("yes", total + msgData.phone.length);
+              return total + (msgData.phone.length * numberOfSMS);
+            } else {
+              console.log("no", msgData.phone.length);
+              return (msgData.phone.length * numberOfSMS);
+            }
+          }, function(error, committed, snapshot) {
+            if (error) {
+              defer.reject(error);
+            } else {
+              defer.resolve(data);
+            }
+          });
+				}).error(function(err) {
+					console.log("api error data", err);
+          if(!err) {
+            Ref.child(settings.id+'/count/'+cyear+'-'+cmonth+'/total').transaction(function(total) {
+              console.log("total", total);
+              if(total >= 0) {
+                console.log("yes", total + msgData.phone.length);
+                return total + msgData.phone.length;
+              } else {
+                console.log("no", msgData.phone.length);
+                return msgData.phone.length;
+              }
+            }, function(error, committed, snapshot) {
+              if (error) {
+                defer.reject(error);
+              } else {
+                defer.resolve({status:'success'});
+              }
+            });
+          } else {
+            defer.reject(err);
+          }
+				});
 
 			  return defer.promise;
     	},
