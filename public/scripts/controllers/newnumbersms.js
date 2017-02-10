@@ -24,6 +24,7 @@ angular.module('inditesmsApp')
       .join(' ');
   };
     $scope.sendSMS = function(ev) {
+      $scope.msg.phone = [];
       if((!$scope.msg.number) || (!$scope.msg.text)){
         alert = $mdDialog.alert({
            title: 'Attention',

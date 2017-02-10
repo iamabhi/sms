@@ -86,7 +86,7 @@ angular.module('inditesmsApp')
         console.log("Message", message);
         console.log("Number of SMS", numberOfSMS);
 
-        var url = "http://api.msg91.com/api/sendhttp.php?authkey="+message.hash+"&mobiles="+message.numbers+"&message="+message.message+"&sender="+message.sender+"&response=json";
+        var url = "http://api.msg91.com/api/sendhttp.php?authkey="+message.hash+"&mobiles="+message.numbers+"&message="+message.message+"&unicode=1&sender="+message.sender+"&response=json";
         var d = new Date();
         var cyear = d.getFullYear();
         var cmonth = ("0" + (d.getMonth() + 1)).slice(-2);
