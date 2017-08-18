@@ -12,17 +12,22 @@ angular.module('inditesmsApp')
     console.log("items", item);
     $scope.item = item;
     $scope.step = 1;
-    $scope.msg = {text:'',phone:[]};
+    $scope.msg = {text:item.name+': ',phone:[]};
     if(item) $scope.msg.phone.push(item.phone);
     $scope.confirm = function() {
+      var itemCount = 0;
     	for (var i = 0; i < $scope.item.subjects.length; i++) {
-    		if(i == 0) $scope.msg.text = $scope.item.subjects[i].subject +' '+ $scope.item.subjects[i].mark;
-    		else $scope.msg.text += "," + $scope.item.subjects[i].subject +' '+ $scope.item.subjects[i].mark;
+        if($scope.item.subjects[i].mark) {
+          if(itemCount == 0) $scope.msg.text += $scope.item.subjects[i].subject +' '+ $scope.item.subjects[i].mark;
+          else $scope.msg.text += "," + $scope.item.subjects[i].subject +' '+ $scope.item.subjects[i].mark;
+          itemCount++;
+        }
     	};
     	$scope.step = 2;
     }
     $scope.ok = function () {
       $scope.step = 3;
+      console.log("msg", $scope.msg);
       Data.sendSMS($scope.msg).then(function(data) {
         console.log("data", data);
         if(data.status == "failure") $modalInstance.close('Something went wrong. Please send SMS again..');
