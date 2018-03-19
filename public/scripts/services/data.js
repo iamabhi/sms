@@ -79,14 +79,14 @@ angular.module('inditesmsApp')
   				hash: "126681ADrjB7IUXeOK57ebae6a",
   				numbers: msgData.phone.toString(','),
   				sender: senderName ? senderName : defaultSender,
-  				message: msgData.text,
+  				message: encodeURIComponent(encodeURIComponent(msgData.text)),
           test: true
   			};
         var numberOfSMS = parseInt((160 + msgData.text.length)/160);
         console.log("Message", message);
         console.log("Number of SMS", numberOfSMS);
 
-        var url = "http://api.msg91.com/api/sendhttp.php?authkey="+message.hash+"&mobiles="+message.numbers+"&message="+message.message+"&sender="+message.sender+"&response=json";
+        var url = "http://api.msg91.com/api/sendhttp.php?authkey="+message.hash+"&unicode=1&mobiles="+message.numbers+"&message="+message.message+"&sender="+message.sender+"&response=json";
         var d = new Date();
         var cyear = d.getFullYear();
         var cmonth = ("0" + (d.getMonth() + 1)).slice(-2);
